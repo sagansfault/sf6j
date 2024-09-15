@@ -16,7 +16,7 @@ public class CharacterData {
     private CharacterData(CharacterId characterId, List<Move> moves) {
         this.characterId = characterId;
         this.moves = moves;
-        this.movesByIdentifier = moves.stream().collect(Collectors.toMap(Move::getIdentifier, k -> k));
+        this.movesByIdentifier = moves.stream().collect(Collectors.toMap(k -> k.getIdentifier().toUpperCase(), k -> k));
     }
 
     public static CompletableFuture<CharacterData> load(CharacterId characterId) {
@@ -34,6 +34,6 @@ public class CharacterData {
 
     @Nullable
     public Move getMove(String identifier) {
-        return movesByIdentifier.get(identifier);
+        return movesByIdentifier.get(identifier.toUpperCase());
     }
 }
