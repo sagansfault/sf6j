@@ -105,7 +105,7 @@ class Parser {
         private static String getImageURL(Element moveElement) {
             Elements images = moveElement.select(HITBOX_IMAGE_ELEMENT_SELECTOR);
             Element image = images.first();
-            Element hitboxImage = images.size() < 2 ? null : images.getLast();
+            Element hitboxImage = images.size() < 2 ? null : images.get(images.size() - 1);
             String rawImageText;
             if (hitboxImage != null) {
                 rawImageText = hitboxImage.outerHtml();
