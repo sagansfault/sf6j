@@ -28,6 +28,7 @@ public enum CharacterId {
     AKUMA("Akuma", "Akuma"),
     MBISON("M.Bison", "M.Bison"),
     TERRY("Terry", "Terry"),
+    MAI("Mai", "Mai"),
     ;
 
     public static final CharacterId[] VALUES = values();
