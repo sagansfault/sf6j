@@ -40,6 +40,8 @@ public class Move {
     private final String punishAdvantage;
     private final String hitAdvantage;
     private final String blockAdvantage;
+    private final String hitstop;
+    private final String attackRange;
     private final String notes;
 
     public Move(String identifier, String input, String name, String image, String damage, String chipDamage, String damageScaling,
@@ -49,7 +51,7 @@ public class Move {
                 String armor, String airborne, String juggleStart, String juggleIncrease, String juggleLimit,
                 String perfectParryAdvantage, String afterDriveRushHit, String afterDriveRushBlock,
                 String driveRushCancelHit, String driveRushCancelBlock, String punishAdvantage, String hitAdvantage,
-                String blockAdvantage, String notes) {
+                String blockAdvantage, String hitstop, String attackRange, String notes) {
         this.identifier = identifier;
         this.input = input;
         this.name = name;
@@ -86,6 +88,8 @@ public class Move {
         this.punishAdvantage = punishAdvantage;
         this.hitAdvantage = hitAdvantage;
         this.blockAdvantage = blockAdvantage;
+        this.hitstop = hitstop;
+        this.attackRange = attackRange;
         this.notes = notes;
     }
 
@@ -233,6 +237,14 @@ public class Move {
         return blockAdvantage;
     }
 
+    public String getHitstop() {
+        return hitstop;
+    }
+
+    public String getAttackRange() {
+        return attackRange;
+    }
+
     public String getNotes() {
         return notes;
     }
@@ -253,17 +265,18 @@ public class Move {
     @Override
     public String toString() {
         return "Move{" +
-                "identifier='" + identifier + '\'' +
+                "active='" + active + '\'' +
+                ", identifier='" + identifier + '\'' +
                 ", input='" + input + '\'' +
                 ", name='" + name + '\'' +
                 ", image='" + image + '\'' +
+                ", damage='" + damage + '\'' +
                 ", chipDamage='" + chipDamage + '\'' +
                 ", damageScaling='" + damageScaling + '\'' +
                 ", guard='" + guard + '\'' +
                 ", cancel='" + cancel + '\'' +
                 ", hitconfirmWindow='" + hitconfirmWindow + '\'' +
                 ", startup='" + startup + '\'' +
-                ", active='" + active + '\'' +
                 ", recovery='" + recovery + '\'' +
                 ", total='" + total + '\'' +
                 ", hitstun='" + hitstun + '\'' +
@@ -288,6 +301,8 @@ public class Move {
                 ", punishAdvantage='" + punishAdvantage + '\'' +
                 ", hitAdvantage='" + hitAdvantage + '\'' +
                 ", blockAdvantage='" + blockAdvantage + '\'' +
+                ", hitstop='" + hitstop + '\'' +
+                ", attackRange='" + attackRange + '\'' +
                 ", notes='" + notes + '\'' +
                 '}';
     }

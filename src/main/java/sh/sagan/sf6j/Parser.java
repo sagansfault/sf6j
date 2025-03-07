@@ -70,27 +70,29 @@ class Parser {
             String startup = consumeNextOrEmpty(iterator);
             String active = consumeNextOrEmpty(iterator);
             String recovery = consumeNextOrEmpty(iterator);
-            String total = consumeNextOrEmpty(iterator);
             String hitstun = consumeNextOrEmpty(iterator);
             String blockstun = consumeNextOrEmpty(iterator);
+            String hitstop = consumeNextOrEmpty(iterator);
+            String total = consumeNextOrEmpty(iterator);
             String driveDamageBlock = consumeNextOrEmpty(iterator);
             String driveDamageHit = consumeNextOrEmpty(iterator);
             String driveGain = consumeNextOrEmpty(iterator);
             String superGainHit = consumeNextOrEmpty(iterator);
             String superGainBlock = consumeNextOrEmpty(iterator);
-            String projectileSpeed = consumeNextOrEmpty(iterator);
             String invuln = consumeNextOrEmpty(iterator);
             String armor = consumeNextOrEmpty(iterator);
             String airborne = consumeNextOrEmpty(iterator);
             String juggleStart = consumeNextOrEmpty(iterator);
             String juggleIncrease = consumeNextOrEmpty(iterator);
             String juggleLimit = consumeNextOrEmpty(iterator);
-            String perfectParryAdvantage = consumeNextOrEmpty(iterator);
             String afterDriveRushHit = consumeNextOrEmpty(iterator);
             String afterDriveRushBlock = consumeNextOrEmpty(iterator);
+            String projectileSpeed = consumeNextOrEmpty(iterator);
+            String attackRange = consumeNextOrEmpty(iterator);
             String driveRushCancelHit = consumeNextOrEmpty(iterator);
             String driveRushCancelBlock = consumeNextOrEmpty(iterator);
             String punishAdvantage = consumeNextOrEmpty(iterator);
+            String perfectParryAdvantage = consumeNextOrEmpty(iterator);
             String hitAdvantage = consumeNextOrEmpty(iterator);
             String blockAdvantage = consumeNextOrEmpty(iterator);
             String notes = consumeNextOrEmpty(iterator);
@@ -99,7 +101,7 @@ class Parser {
                     startup, active, recovery, total, hitstun, blockstun, driveDamageBlock, driveDamageHit, driveGain,
                     superGainHit, superGainBlock, projectileSpeed, invuln, armor, airborne, juggleStart, juggleIncrease,
                     juggleLimit, perfectParryAdvantage, afterDriveRushHit, afterDriveRushBlock, driveRushCancelHit,
-                    driveRushCancelBlock, punishAdvantage, hitAdvantage, blockAdvantage, notes);
+                    driveRushCancelBlock, punishAdvantage, hitAdvantage, blockAdvantage, hitstop, attackRange, notes);
         }
 
         private static String getImageURL(Element moveElement) {
