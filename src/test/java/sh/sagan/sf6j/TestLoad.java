@@ -14,6 +14,7 @@ public class TestLoad {
         } catch (InterruptedException | ExecutionException e) {
             throw new RuntimeException(e);
         }
-        System.out.println(gameData.getCharacterData().get(CharacterId.MBISON).getMove("4HK").toString());
+        System.out.println(gameData.getCharacterData().get(CharacterId.MBISON).getMove("236HK").toString());
+        System.out.println(gameData.getCharacterData().get(CharacterId.MBISON).getGifs().get(0).getGifURL());
     }
 }

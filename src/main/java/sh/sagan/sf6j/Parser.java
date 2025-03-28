@@ -21,7 +21,7 @@ class Parser {
 
     private static final HttpClient CLIENT = HttpClient.newBuilder().build();
 
-    static final class MoveParser {
+    static class FrameData {
 
         private static final String IDENTIFIER_SELECTOR = "div > div > section.section-collapsible > h5 > span.mw-headline";
         private static final String MOVE_BLOCK_IDENTIFIER = "div > div > section.section-collapsible > h5 + table.wikitable";
@@ -34,8 +34,8 @@ class Parser {
 
         private static final String DEFAULT_IMAGE_URL = "https://wiki.supercombo.gg/images/thumb/4/42/SF6_Logo.png/300px-SF6_Logo.png";
 
-        public static CompletableFuture<List<Move>> loadMoves(String url) {
-            HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(url)).build();
+        public static CompletableFuture<List<Move>> loadMoves(CharacterId characterId) {
+            HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(characterId.getSuperComboURL())).build();
             return CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString())
                     .thenApply(res -> {
                         String body = res.body();
@@ -134,13 +134,52 @@ class Parser {
         private static Iterator<Element> selectMoveElements(Document document) {
             return document.select(MOVE_BLOCK_IDENTIFIER).iterator();
         }
+    }
 
-        private static String consumeNextOrEmpty(Iterator<Element> iterator) {
-            if (iterator.hasNext()) {
-                return getLowestChild(iterator.next()).ownText();
-            }
-            return "";
+    static class Gifs {
+
+        private static final String MOVE_BLOCK_SELECTOR = "div.movecontainer";
+
+        private static final String MOVE_NAME_SELECTOR = "div.movename";
+        private static final String MOVE_HITBOX_SELECTOR = "div.hitbox > a.hitboximg > img";
+
+        public static CompletableFuture<List<Gif>> loadGifs(CharacterId characterId) {
+            HttpRequest request = HttpRequest.newBuilder().GET().uri(URI.create(characterId.getUltimateFrameDataURL())).build();
+            return CLIENT.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                    .thenApply(res -> {
+                        String body = res.body();
+                        Document document = Jsoup.parse(body);
+                        return parseGifs(document);
+                    });
         }
+
+        private static List<Gif> parseGifs(Document document) {
+            List<Gif> gifs = new ArrayList<>();
+            for (Element element : document.select(MOVE_BLOCK_SELECTOR)) {
+                Element nameElement = element.selectFirst(MOVE_NAME_SELECTOR);
+                if (nameElement == null) {
+                    continue;
+                }
+                String name = nameElement.ownText();
+
+                Element gifElement = element.selectFirst(MOVE_HITBOX_SELECTOR);
+                if (gifElement == null) {
+                    continue;
+                }
+                String gifURL = gifElement.attribute("src").getValue();
+                gifURL = String.format("https://ultimateframedata.com/sf6/%s", gifURL);
+                Gif gif = new Gif(name, gifURL);
+                gifs.add(gif);
+            }
+            return gifs;
+        }
+    }
+
+    private static String consumeNextOrEmpty(Iterator<Element> iterator) {
+        if (iterator.hasNext()) {
+            return getLowestChild(iterator.next()).ownText();
+        }
+        return "";
     }
 
     private static String firstOrDefault(Elements elements) {

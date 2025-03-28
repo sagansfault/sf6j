@@ -12,16 +12,20 @@ public class CharacterData {
     private final CharacterId characterId;
     private final List<Move> moves;
     private final Map<String, Move> movesByIdentifier;
+    private final List<Gif> gifs;
 
-    private CharacterData(CharacterId characterId, List<Move> moves) {
+    private CharacterData(CharacterId characterId, List<Move> moves, List<Gif> gifs) {
         this.characterId = characterId;
         this.moves = moves;
         this.movesByIdentifier = moves.stream().collect(Collectors.toMap(k -> k.getIdentifier().toUpperCase(), k -> k));
+        this.gifs = gifs;
     }
 
     public static CompletableFuture<CharacterData> load(CharacterId characterId) {
-        return Parser.MoveParser.loadMoves(characterId.getSuperComboURL())
-                .thenApply(moves -> new CharacterData(characterId, moves));
+        CompletableFuture<List<Move>> moves = Parser.FrameData.loadMoves(characterId);
+        CompletableFuture<List<Gif>> gifs = Parser.Gifs.loadGifs(characterId);
+        return CompletableFuture.allOf(moves, gifs)
+                .thenApply(nothing -> new CharacterData(characterId, moves.join(), gifs.join()));
     }
 
     public CharacterId getCharacterId() {
@@ -35,5 +39,9 @@ public class CharacterData {
     @Nullable
     public Move getMove(String identifier) {
         return movesByIdentifier.get(identifier.toUpperCase());
+    }
+
+    public List<Gif> getGifs() {
+        return gifs;
     }
 }
