@@ -1,6 +1,7 @@
 package sh.sagan.sf6j;
 
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.Attribute;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -166,7 +167,14 @@ class Parser {
                 if (gifElement == null) {
                     continue;
                 }
-                String gifURL = gifElement.attribute("src").getValue();
+                if (!gifElement.hasAttr("src")) {
+                    continue;
+                }
+                Attribute src = gifElement.attribute("src");
+                if (src == null) {
+                    continue;
+                }
+                String gifURL = src.getValue();
                 gifURL = String.format("https://ultimateframedata.com/sf6/%s", gifURL);
                 Gif gif = new Gif(name, gifURL);
                 gifs.add(gif);
